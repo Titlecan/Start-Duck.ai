@@ -1,119 +1,298 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DuckDuckGo 镜像</title>
-<link rel="icon" href="https://ddg.titlecan.cn/favicon.ico">
-<link rel="manifest" href="data:application/json,{"name":"DuckDuckGo 镜像","short_name":"Duck","start_url":"https://ddg.titlecan.cn/","display":"standalone","background_color":"#f7f7f7","theme_color":"#4080ff"}">
-<style>
-:root{--brand:#4080ff;--bg:#f7f7f7}
-*{margin:0;padding:0;box-sizing:border-box}
-body{min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,"Noto Sans",sans-serif;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;overflow-x:hidden}
-/* 视觉中心上移 8% */
-.wrapper{margin-top:-8vh;text-align:center;width:100%;max-width:500px}
-.logo img{width:clamp(160px,28vw,220px);height:auto;margin-bottom:24px}
-/* 搜索框 */
-.search-bar{position:relative}
-.search-bar input{width:100%;height:46px;padding:0 52px 0 16px;border:1px solid #bbb;border-radius:6px;font-size:16px;outline:none;transition:border .2s}
-.search-bar input:focus{border-color:var(--brand)}
-.search-btn{position:absolute;top:5px;right:5px;width:36px;height:36px;border:none;border-radius:4px;background:var(--brand) url('https://ddg.titlecan.cn/assets/loupe_white.png') no-repeat center/20px;cursor:pointer;transition:opacity .2s}
-.search-btn:hover{opacity:.9}
-/* Duck.ai 按钮 */
-.duckai{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:4px;padding:6px 10px;border:1px solid #e5e5e5;border-radius:4px;background:#fff;font-size:14px;color:#333;text-decoration:none;transition:.2s}
-.duckai:hover{border-color:var(--brand);color:var(--brand)}
-.duckai svg{width:18px;height:18px}
-/* 底部文字链接 */
-footer{margin-top:32px;font-size:14px;color:#666}
-footer a{margin:0 8px;color:#666;text-decoration:none;position:relative}
-footer a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--brand);transition:width .2s}
-footer a:hover::after{width:100%}
-/* 弹窗 */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);align-items:center;justify-content:center;z-index:9}
-.modal-content{background:#fff;padding:20px;border-radius:8px;width:90%;max-width:420px;text-align:center}
-.modal-content input{width:100%;margin:12px 0;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px}
-.modal-content button{margin:4px;padding:6px 12px;border:none;border-radius:4px;background:var(--brand);color:#fff;cursor:pointer}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=1">
+  <meta name="referrer" content="origin">
+  <title>DuckDuckGo镜像站</title>
+  <link rel="canonical" href="https://ddg.titlecan.cn/">
+  <link rel="icon" href="https://ddg.titlecan.cn/favicon.ico" type="image/x-icon">
+  
+  <style>
+    /* 基础样式重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f7f7f7;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+    
+    /* 头部样式 */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #333;
+    }
+    
+    .logo {
+      width: 180px;
+      height: 60px;
+      background: #DE5833;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 22px;
+      margin-right: 10px;
+    }
+    
+    .logo-text {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    
+    /* Duck.ai 按钮 */
+    .duck-ai-btn {
+      display: flex;
+      align-items: center;
+      background: #4a86e8;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 24px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(74, 134, 232, 0.3);
+    }
+    
+    .duck-ai-btn:hover {
+      background: #3a76d8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(74, 134, 232, 0.4);
+    }
+    
+    .duck-ai-btn svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+    
+    .duck-ai-btn svg path {
+      fill: white;
+    }
+    
+    /* 主内容区 */
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding: 40px 20px;
+    }
+    
+    .search-container {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .search-title {
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 30px;
+      color: #222;
+    }
+    
+    .search-form {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 16px 60px 16px 20px;
+      font-size: 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 30px;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .search-input:focus {
+      border-color: #4a86e8;
+      box-shadow: 0 2px 12px rgba(74, 134, 232, 0.2);
+    }
+    
+    .search-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .search-icon {
+      width: 24px;
+      height: 24px;
+      background: url('https://ddg.titlecan.cn/assets/loupe_gray.png') no-repeat center center;
+      background-size: contain;
+    }
+    
+    .search-btn:hover .search-icon {
+      background-image: url('https://ddg.titlecan.cn/assets/loupe_white.png');
+    }
+    
+    /* 底部区域 */
+    .footer {
+      max-width: 1200px;
+      width: 100%;
+      margin: 40px auto 20px;
+      text-align: center;
+    }
+    
+    .footer-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .add-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 25px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      text-decoration: none;
+      color: #444;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .add-btn:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+    
+    .add-btn i {
+      font-style: normal;
+      font-weight: bold;
+      margin-right: 8px;
+      font-size: 18px;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .search-title {
+        font-size: 28px;
+      }
+      
+      .search-input {
+        padding: 14px 55px 14px 18px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .footer-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .add-btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
-<a class="duckai" href=" ">
-  <svg viewBox="0 0 1024 1024" width="18"><path d="M576 85.333333c0 18.944-8.234667 35.968-21.333333 47.701334V213.333333h213.333333a128 128 0 0 1 128 128v426.666667a128 128 0 0 1-128 128H256a128 128 0 0 1-128-128V341.333333a128 128 0 0 1 128-128h213.333333V133.034667A64 64 0 1 1 576 85.333333z"/></svg>
-  Duck.ai
-</a >
+  <!-- 头部区域 -->
+  <header class="header">
+    <a href="https://ddg.titlecan.cn/about.html" class="logo-link">
+      <div class="logo">DuckDuckGo</div>
+      <div class="logo-text">镜像搜索</div>
+    </a>
+    
+    <a href="https://ddg.titlecan.cn/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1" class="duck-ai-btn">
+      <svg t="1753664664576" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1960" width="200" height="200">
+        <path d="M576 85.333333c0 18.944-8.234667 35.968-21.333333 47.701334V213.333333h213.333333a128 128 0 0 1 128 128v426.666667a128 128 0 0 1-128 128H256a128 128 0 0 1-128-128V341.333333a128 128 0 0 1 128-128h213.333333V133.034667A64 64 0 1 1 576 85.333333zM0 426.666667h85.333333v256H0v-256z m1024 0h-85.333333v256h85.333333v-256zM384 618.666667a64 64 0 1 0 0-128 64 64 0 0 0 0 128z m320-64a64 64 0 1 0-128 0 64 64 0 0 0 128 0z" fill="#000000" p-id="1961"></path>
+      </svg>
+      Duck.ai
+    </a>
+  </header>
 
-<div class="wrapper">
-  <div class="logo">
-    < img src="https://ddg.titlecan.cn/assets/logo_homepage.normal.v109.svg" alt="DuckDuckGo">
-  </div>
-  <form class="search-bar" action="https://ddg.titlecan.cn/" method="get">
-    <input name="q" type="text" placeholder="搜索而不被跟踪…" autofocus>
-    <button class="search-btn" type="submit" aria-label="搜索"></button>
-  </form>
-</div>
+  <!-- 主内容区 -->
+  <main class="main-container">
+    <div class="search-container">
+      <h1 class="search-title">安全、私密的搜索引擎</h1>
+      
+      <form class="search-form" action="https://ddg.titlecan.cn/" method="get">
+        <input 
+          type="text" 
+          name="q" 
+          class="search-input" 
+          placeholder="搜索互联网而不被追踪..."
+          autocomplete="off"
+          autofocus
+        >
+        <button type="submit" class="search-btn">
+          <span class="search-icon"></span>
+        </button>
+      </form>
+      
+      <p>DuckDuckGo镜像站 · 无追踪 · 无个性化广告</p>
+    </div>
+  </main>
 
-<footer>
-  <a href="javascript:install('search')">添加搜索到桌面</a >
-  <a href="javascript:install('ai')">添加Duck.ai到桌面</a >
-</footer>
+  <!-- 底部区域 -->
+  <footer class="footer">
+    <div class="footer-buttons">
+      <a href="https://s.ddg.titlecan.cn/" class="add-btn">
+        <i>+</i> 添加搜索到桌面
+      </a>
+      <a href="https://ddg.titlecan.cn/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1" class="add-btn">
+        <i>+</i> 添加Duck.ai到桌面
+      </a>
+    </div>
+  </footer>
 
-<!-- 弹窗 -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <p id="modalText">复制下方地址，用浏览器手动添加：</p >
-    <input id="modalUrl" readonly>
-    <button onclick="copyUrl()">复制</button>
-    <button onclick="closeModal()">关闭</button>
-  </div>
-</div>
-
-<script>
-const urls={
-  search:'https://s.ddg.titlecan.cn/',
-  ai:'https://ddg.titlecan.cn/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1'
-};
-function install(type){
-  const url=urls[type];
-  // 1. 尝试 PWA
-  if(window.matchMedia('(display-mode: standalone)').matches){
-    alert('已作为 PWA 运行');
-    return;
-  }
-  if('BeforeInstallPromptEvent' in window){
-    window.deferredPrompt?.prompt();
-    return;
-  }
-  // 2. 浏览器原生
-  try{
-    if(window.sidebar?.addPanel){ // Firefox
-      window.sidebar.addPanel(document.title,url,'');
-    }else if(window.external?.AddFavorite){ // IE
-      window.external.AddFavorite(url,document.title);
-    }else{
-      throw 0;
-    }
-  }catch(e){
-    // 3. 手动弹窗
-    document.getElementById('modalText').innerText='复制地址后手动添加：';
-    document.getElementById('modalUrl').value=url;
-    document.getElementById('modal').style.display='flex';
-  }
-}
-function copyUrl(){
-  const el=document.getElementById('modalUrl');
-  el.select();
-  navigator.clipboard.writeText(el.value).then(()=>alert('已复制'));
-}
-function closeModal(){
-  document.getElementById('modal').style.display='none';
-}
-// 监听 PWA 安装提示
-window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault();
-  window.deferredPrompt=e;
-});
-</script>
-
-<script charset="UTF-8" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-<script>LA.init({id:"3MqqSVJqXXmWm6E0",ck:"3MqqSVJqXXmWm6E0"})</script>
+  <!-- 统计代码 -->
+  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+  <script>
+    LA.init({id:"3MqqSVJqXXmWm6E0",ck:"3MqqSVJqXXmWm6E0"})
+  </script>
 </body>
 </html>
