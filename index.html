@@ -9,7 +9,219 @@
   <link rel="canonical" href="https://ddg.titlecan.cn/">
   <link rel="icon" href="https://ddg.titlecan.cn/favicon.ico" type="image/x-icon">
   <link rel="manifest" href="https://s.ddg.titlecan.cn/manifest.json">
-  <style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Microsoft YaHei';background-color:#f8f9fa;color:#222;line-height:1.5;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-top:20vh}.header-wrap{position:fixed;top:0;width:100%;display:flex;justify-content:flex-end;padding:15px;z-index:100}.duck-ai-btn{display:flex;align-items:center;gap:8px;padding:8px 15px;background:#fff;border-radius:24px;box-shadow:0 1px 3px rgba(0,0,0,0.1);text-decoration:none;color:#222;font-weight:500;font-size:14px;border:1px solid #e0e0e0;transition:all 0.2s}.duck-ai-btn:hover{background:#f8f9fa;box-shadow:0 1px 5px rgba(0,0,0,0.15)}.icon-ai{width:20px;height:20px;fill:#222}.content-wrap{display:flex;flex-direction:column;align-items:center;width:100%;max-width:700px;padding:0 20px}.logo-wrap{margin-bottom:30px}.logo{width:200px;height:85px;background-image:url('https://ddg.titlecan.cn/assets/logo_homepage.normal.v109.svg');background-repeat:no-repeat;background-size:contain;background-position:center}.search-wrap{width:100%;position:relative}.search-form{display:flex;width:100%;max-width:584px;margin:0 auto;position:relative}.search-input{width:100%;height:48px;padding:0 55px 0 20px;border:2px solid #e0e0e0;border-radius:24px;font-size:16px;outline:none;transition:all 0.2s}.search-input:focus{border-color:#4d90fe;box-shadow:0 1px 6px rgba(32,33,36,0.28)}.search-button{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:none;background:url('https://ddg.titlecan.cn/assets/loupe_gray.png') center center no-repeat;background-size:24px;cursor:pointer;background-color:transparent;outline:none}.search-button:hover{background-image:url('https://ddg.titlecan.cn/assets/loupe_white.png');background-color:#4d90fe;border-radius:50%}.footer{position:fixed;bottom:0;width:100%;text-align:center;padding:20px;color:#999;font-size:14px;background:#f8f9fa}.search-message{position:absolute;top:55px;left:50%;transform:translateX(-50%);background-color:#ff4444;color:white;padding:5px 10px;border-radius:4px;font-size:14px;opacity:0;transition:opacity 0.3s}.search-message.show{opacity:1}#pwa-install-container{position:fixed;bottom:70px;width:100%;text-align:center;display:none;z-index:1000;animation:fadeIn 0.5s}#installBtn{padding:10px 20px;background:#4d90fe;color:white;border:none;border-radius:24px;font-size:14px;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);transition:all 0.3s}#installBtn:hover{background:#3a7de0;transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.2)}@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}@media (max-width:768px){body{padding-top:15vh}.logo{width:160px;height:68px}.search-input{height:44px;font-size:15px}#pwa-install-container{bottom:60px}}</style>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Microsoft YaHei';
+      background-color: #f8f9fa;
+      color: #222;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20vh
+    }
+    
+    .header-wrap {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      padding: 15px;
+      z-index: 100
+    }
+    
+    .duck-ai-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      text-decoration: none;
+      color: #222;
+      font-weight: 500;
+      font-size: 14px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.2s
+    }
+    
+    .duck-ai-btn:hover {
+      background: #f8f9fa;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.15)
+    }
+    
+    .icon-ai {
+      width: 20px;
+      height: 20px;
+      fill: #222
+    }
+    
+    .content-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 700px;
+      padding: 0 20px
+    }
+    
+    .logo-wrap {
+      margin-bottom: 30px
+    }
+    
+    .logo {
+      width: 200px;
+      height: 85px;
+      background-image: url('https://ddg.titlecan.cn/assets/logo_homepage.normal.v109.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center
+    }
+    
+    .search-wrap {
+      width: 100%;
+      position: relative
+    }
+    
+    .search-form {
+      display: flex;
+      width: 100%;
+      max-width: 584px;
+      margin: 0 auto;
+      position: relative
+    }
+    
+    .search-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 55px 0 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 24px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.2s
+    }
+    
+    .search-input:focus {
+      border-color: #4d90fe;
+      box-shadow: 0 1px 6px rgba(32,33,36,0.28)
+    }
+    
+    .search-button {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: url('https://ddg.titlecan.cn/assets/loupe_gray.png') center center no-repeat;
+      background-size: 24px;
+      cursor: pointer;
+      background-color: transparent;
+      outline: none
+    }
+    
+    .search-button:hover {
+      background-image: url('https://ddg.titlecan.cn/assets/loupe_white.png');
+      background-color: #4d90fe;
+      border-radius: 50%
+    }
+    
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      color: #999;
+      font-size: 14px;
+      background: #f8f9fa
+    }
+    
+    .search-message {
+      position: absolute;
+      top: 55px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ff4444;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s
+    }
+    
+    .search-message.show {
+      opacity: 1
+    }
+    
+    #pwa-install-container {
+      position: fixed;
+      bottom: 70px;
+      width: 100%;
+      text-align: center;
+      display: none;
+      z-index: 1000;
+      animation: fadeIn 0.5s
+    }
+    
+    #installBtn {
+      padding: 10px 20px;
+      background: #4d90fe;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s
+    }
+    
+    #installBtn:hover {
+      background: #3a7de0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2)
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding-top: 15vh
+      }
+      .logo {
+        width: 160px;
+        height: 68px
+      }
+      .search-input {
+        height: 44px;
+        font-size: 15px
+      }
+      #pwa-install-container {
+        bottom: 60px
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="header-wrap">
@@ -44,6 +256,106 @@
   </div>
 
   <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-  <script>LA.init({id:"3MqqSVJqXXmWm6E0",ck:"3MqqSVJqXXmWm6E0"});document.getElementById('aiLink').addEventListener('click',function(){LA.track({name:'AI_link_click'})});document.querySelector('.search-input').focus();document.querySelector('.search-form').addEventListener('submit',function(e){const t=document.querySelector('.search-input').value.trim(),n=document.querySelector('.search-message');if(!t)return e.preventDefault(),n.classList.add('show'),setTimeout(()=>{n.classList.remove('show')},1500),void(this.action=`https://ddg.titlecan.cn/?q=${encodeURIComponent(t)}`)});document.addEventListener('keydown',function(e){'/'===e.key&&document.activeElement!==document.querySelector('.search-input')&&(e.preventDefault(),document.querySelector('.search-input').focus())});let e;const t=document.getElementById('pwa-install-container'),n=document.getElementById('installBtn');window.matchMedia('(display-mode: standalone)').matches||(window.addEventListener('beforeinstallprompt',(e=>{e.preventDefault(),e=e,showInstallPromotion()}),n.addEventListener('click',async()=>{if(e){n.textContent='安装中...',n.disabled=!0;try{await e.prompt();const t=await e.userChoice;LA.track({name:'PWA_install',data:{result:t.outcome}}),'accepted'===t.outcome?console.log('用户接受了安装'):(console.log('用户拒绝了安装'),n.textContent='📌 安装Duck.ai应用',n.disabled=!1)}catch(e){console.error('安装出错:',e),n.textContent='📌 安装Duck.ai应用',n.disabled=!1}t.style.display='none',e=null}}),window.addEventListener('appinstalled',()=>{console.log('应用已安装'),LA.track({name:'PWA_installed'})});function showInstallPromotion(){const e=localStorage.getItem('lastPwaPrompt'),t=6048e5;(!e||Date.now()-e>t)&&(t.style.display='block',localStorage.setItem('lastPwaPrompt',Date.now()),setTimeout(()=>{t.style.display='none'},3e4))}/iPad|iPhone|iPod/.test(navigator.userAgent)&&navigator.userAgent.includes('Safari')&&!navigator.userAgent.includes('Chrome')&&(n.textContent='添加到主屏幕',n.onclick=()=>{LA.track({name:'iOS_add_to_homescreen_prompt'}),alert('要安装Duck.ai应用:\n1. 点击分享按钮\n2. 选择"添加到主屏幕"\n3. 点击"添加"')},showInstallPromotion())</script>
+  <script>
+    LA.init({id:"3MqqSVJqXXmWm6E0",ck:"3MqqSVJqXXmWm6E0"});
+    
+    document.getElementById('aiLink').addEventListener('click', function() {
+      LA.track({name:'AI_link_click'})
+    });
+    
+    document.querySelector('.search-input').focus();
+    
+    document.querySelector('.search-form').addEventListener('submit', function(e) {
+      const inputValue = document.querySelector('.search-input').value.trim();
+      const message = document.querySelector('.search-message');
+      
+      if(!inputValue) {
+        e.preventDefault();
+        message.classList.add('show');
+        setTimeout(() => {
+          message.classList.remove('show');
+        }, 1500);
+        return false;
+      }
+      this.action = `https://ddg.titlecan.cn/?q=${encodeURIComponent(inputValue)}`;
+    });
+    
+    document.addEventListener('keydown', function(e) {
+      if('/' === e.key && document.activeElement !== document.querySelector('.search-input')) {
+        e.preventDefault();
+        document.querySelector('.search-input').focus();
+      }
+    });
+    
+    let deferredPrompt;
+    const installContainer = document.getElementById('pwa-install-container');
+    const installBtn = document.getElementById('installBtn');
+    
+    if(!window.matchMedia('(display-mode: standalone)').matches) {
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallPromotion();
+      });
+      
+      installBtn.addEventListener('click', async () => {
+        if(deferredPrompt) {
+          installBtn.textContent = '安装中...';
+          installBtn.disabled = true;
+          
+          try {
+            await deferredPrompt.prompt();
+            const choiceResult = await deferredPrompt.userChoice;
+            
+            LA.track({name:'PWA_install', data:{result:choiceResult.outcome}});
+            
+            if('accepted' === choiceResult.outcome) {
+              console.log('用户接受了安装');
+            } else {
+              console.log('用户拒绝了安装');
+              installBtn.textContent = '📌 安装Duck.ai应用';
+              installBtn.disabled = false;
+            }
+          } catch(error) {
+            console.error('安装出错:', error);
+            installBtn.textContent = '📌 安装Duck.ai应用';
+            installBtn.disabled = false;
+          }
+          
+          installContainer.style.display = 'none';
+          deferredPrompt = null;
+        }
+      });
+      
+      window.addEventListener('appinstalled', () => {
+        console.log('应用已安装');
+        LA.track({name:'PWA_installed'});
+      });
+      
+      function showInstallPromotion() {
+        const lastPromptTime = localStorage.getItem('lastPwaPrompt');
+        const oneWeek = 6048e5;
+        
+        if(!lastPromptTime || Date.now() - lastPromptTime > oneWeek) {
+          installContainer.style.display = 'block';
+          localStorage.setItem('lastPwaPrompt', Date.now());
+          setTimeout(() => {
+            installContainer.style.display = 'none';
+          }, 30000);
+        }
+      }
+      
+      if(/iPad|iPhone|iPod/.test(navigator.userAgent) && 
+         navigator.userAgent.includes('Safari') && 
+         !navigator.userAgent.includes('Chrome')) {
+        installBtn.textContent = '添加到主屏幕';
+        installBtn.onclick = () => {
+          LA.track({name:'iOS_add_to_homescreen_prompt'});
+          alert('要安装Duck.ai应用:\n1. 点击分享按钮\n2. 选择"添加到主屏幕"\n3. 点击"添加"');
+        };
+        showInstallPromotion();
+      }
+    }
+  </script>
 </body>
 </html>
