@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DuckDuckGo 镜像</title>
+<link rel="icon" href="https://ddg.titlecan.cn/favicon.ico">
+<link rel="manifest" href="data:application/json,{"name":"DuckDuckGo 镜像","short_name":"Duck","start_url":"https://ddg.titlecan.cn/","display":"standalone","background_color":"#f7f7f7","theme_color":"#4080ff"}">
+<style>
+:root{--brand:#4080ff;--bg:#f7f7f7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,"Noto Sans",sans-serif;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;overflow-x:hidden}
+/* 视觉中心上移 8% */
+.wrapper{margin-top:-8vh;text-align:center;width:100%;max-width:500px}
+.logo img{width:clamp(160px,28vw,220px);height:auto;margin-bottom:24px}
+/* 搜索框 */
+.search-bar{position:relative}
+.search-bar input{width:100%;height:46px;padding:0 52px 0 16px;border:1px solid #bbb;border-radius:6px;font-size:16px;outline:none;transition:border .2s}
+.search-bar input:focus{border-color:var(--brand)}
+.search-btn{position:absolute;top:5px;right:5px;width:36px;height:36px;border:none;border-radius:4px;background:var(--brand) url('https://ddg.titlecan.cn/assets/loupe_white.png') no-repeat center/20px;cursor:pointer;transition:opacity .2s}
+.search-btn:hover{opacity:.9}
+/* Duck.ai 按钮 */
+.duckai{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:4px;padding:6px 10px;border:1px solid #e5e5e5;border-radius:4px;background:#fff;font-size:14px;color:#333;text-decoration:none;transition:.2s}
+.duckai:hover{border-color:var(--brand);color:var(--brand)}
+.duckai svg{width:18px;height:18px}
+/* 底部文字链接 */
+footer{margin-top:32px;font-size:14px;color:#666}
+footer a{margin:0 8px;color:#666;text-decoration:none;position:relative}
+footer a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--brand);transition:width .2s}
+footer a:hover::after{width:100%}
+/* 弹窗 */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);align-items:center;justify-content:center;z-index:9}
+.modal-content{background:#fff;padding:20px;border-radius:8px;width:90%;max-width:420px;text-align:center}
+.modal-content input{width:100%;margin:12px 0;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px}
+.modal-content button{margin:4px;padding:6px 12px;border:none;border-radius:4px;background:var(--brand);color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+<a class="duckai" href=" ">
+  <svg viewBox="0 0 1024 1024" width="18"><path d="M576 85.333333c0 18.944-8.234667 35.968-21.333333 47.701334V213.333333h213.333333a128 128 0 0 1 128 128v426.666667a128 128 0 0 1-128 128H256a128 128 0 0 1-128-128V341.333333a128 128 0 0 1 128-128h213.333333V133.034667A64 64 0 1 1 576 85.333333z"/></svg>
+  Duck.ai
+</a >
+
+<div class="wrapper">
+  <div class="logo">
+    < img src="https://ddg.titlecan.cn/assets/logo_homepage.normal.v109.svg" alt="DuckDuckGo">
+  </div>
+  <form class="search-bar" action="https://ddg.titlecan.cn/" method="get">
+    <input name="q" type="text" placeholder="搜索而不被跟踪…" autofocus>
+    <button class="search-btn" type="submit" aria-label="搜索"></button>
+  </form>
+</div>
+
+<footer>
+  <a href="javascript:install('search')">添加搜索到桌面</a >
+  <a href="javascript:install('ai')">添加Duck.ai到桌面</a >
+</footer>
+
+<!-- 弹窗 -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <p id="modalText">复制下方地址，用浏览器手动添加：</p >
+    <input id="modalUrl" readonly>
+    <button onclick="copyUrl()">复制</button>
+    <button onclick="closeModal()">关闭</button>
+  </div>
+</div>
+
+<script>
+const urls={
+  search:'https://s.ddg.titlecan.cn/',
+  ai:'https://ddg.titlecan.cn/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1'
+};
+function install(type){
+  const url=urls[type];
+  // 1. 尝试 PWA
+  if(window.matchMedia('(display-mode: standalone)').matches){
+    alert('已作为 PWA 运行');
+    return;
+  }
+  if('BeforeInstallPromptEvent' in window){
+    window.deferredPrompt?.prompt();
+    return;
+  }
+  // 2. 浏览器原生
+  try{
+    if(window.sidebar?.addPanel){ // Firefox
+      window.sidebar.addPanel(document.title,url,'');
+    }else if(window.external?.AddFavorite){ // IE
+      window.external.AddFavorite(url,document.title);
+    }else{
+      throw 0;
+    }
+  }catch(e){
+    // 3. 手动弹窗
+    document.getElementById('modalText').innerText='复制地址后手动添加：';
+    document.getElementById('modalUrl').value=url;
+    document.getElementById('modal').style.display='flex';
+  }
+}
+function copyUrl(){
+  const el=document.getElementById('modalUrl');
+  el.select();
+  navigator.clipboard.writeText(el.value).then(()=>alert('已复制'));
+}
+function closeModal(){
+  document.getElementById('modal').style.display='none';
+}
+// 监听 PWA 安装提示
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  window.deferredPrompt=e;
+});
+</script>
+
+<script charset="UTF-8" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id:"3MqqSVJqXXmWm6E0",ck:"3MqqSVJqXXmWm6E0"})</script>
+</body>
+</html>
