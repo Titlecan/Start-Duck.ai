@@ -1,504 +1,233 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=1">
   <meta name="referrer" content="origin">
-  <title>DuckDuckGo镜像站</title>
+  <title>DuckDuckGo</title>
   <link rel="canonical" href="https://ddg.titlecan.cn/">
   <link rel="icon" href="https://ddg.titlecan.cn/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://ddg.titlecan.cn/dist/h.0d389dd02de7e1030cde.css" type="text/css">
   <style>
-    /* 基础样式重置 */
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
     
     body {
-      background: #fff;
-      color: #333;
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #222;
+      line-height: 1.5;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: 20px;
-      background: linear-gradient(135deg, #f7f9fc 0%, #eef2f6 100%);
+      align-items: center;
+      padding-top: 20vh;
     }
     
-    /* 头部样式 */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-      max-width: 1200px;
+    .header-wrap {
+      position: fixed;
+      top: 0;
       width: 100%;
-      margin: 0 auto;
-    }
-    
-    .logo-link {
       display: flex;
-      align-items: center;
-      text-decoration: none;
-      color: #333;
+      justify-content: flex-end;
+      padding: 15px;
+      z-index: 100;
     }
     
-    .logo-svg {
-      width: 180px;
-      height: 60px;
-    }
-    
-    .logo-text {
-      font-size: 16px;
-      font-weight: 500;
-      margin-left: 10px;
-      color: #666;
-    }
-    
-    /* Duck.ai 按钮 */
     .duck-ai-btn {
       display: flex;
       align-items: center;
-      background: linear-gradient(135deg, #4a86e8 0%, #3a76d8 100%);
-      color: white;
-      padding: 10px 20px;
+      gap: 8px;
+      padding: 8px 15px;
+      background: #fff;
       border-radius: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       text-decoration: none;
+      color: #222;
       font-weight: 500;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(74, 134, 232, 0.3);
-      border: none;
-      cursor: pointer;
+      font-size: 14px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.2s;
     }
     
     .duck-ai-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(74, 134, 232, 0.4);
+      background: #f8f9fa;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.15);
     }
     
-    .duck-ai-btn svg {
+    .icon-ai {
       width: 20px;
       height: 20px;
-      margin-right: 8px;
+      fill: #222;
     }
     
-    .duck-ai-btn svg path {
-      fill: white;
-    }
-    
-    /* 主内容区 */
-    .main-container {
+    .content-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      flex: 1;
-      padding: 40px 20px;
-    }
-    
-    .search-container {
-      max-width: 600px;
       width: 100%;
-      margin: 0 auto;
-      text-align: center;
+      max-width: 700px;
+      padding: 0 20px;
     }
     
-    .search-title {
-      font-size: 36px;
-      font-weight: 300;
+    .logo-wrap {
       margin-bottom: 30px;
-      color: #222;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    
+    .logo {
+      width: 200px;
+      height: 85px;
+      background-image: url('https://ddg.titlecan.cn/assets/logo_homepage.normal.v109.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+    }
+    
+    .about-link {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #999;
+      font-size: 14px;
+      text-decoration: none;
+    }
+    
+    .about-link:hover {
+      text-decoration: underline;
+    }
+    
+    .search-wrap {
+      width: 100%;
+      position: relative;
     }
     
     .search-form {
+      display: flex;
+      width: 100%;
+      max-width: 584px;
+      margin: 0 auto;
       position: relative;
-      margin-bottom: 30px;
     }
     
     .search-input {
       width: 100%;
-      padding: 16px 60px 16px 20px;
-      font-size: 16px;
+      height: 48px;
+      padding: 0 55px 0 20px;
       border: 2px solid #e0e0e0;
-      border-radius: 30px;
+      border-radius: 24px;
+      font-size: 16px;
       outline: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s;
     }
     
     .search-input:focus {
-      border-color: #4a86e8;
-      box-shadow: 0 4px 20px rgba(74, 134, 232, 0.25);
+      border-color: #4d90fe;
+      box-shadow: 0 1px 6px rgba(32,33,36,0.28);
     }
     
-    .search-btn {
+    .search-button {
       position: absolute;
       right: 10px;
       top: 50%;
       transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
       width: 40px;
       height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
+      border: none;
+      background: url('https://ddg.titlecan.cn/assets/loupe_gray.png') center center no-repeat;
+      background-size: 24px;
+      cursor: pointer;
+      background-color: transparent;
+      outline: none;
     }
     
-    .search-icon {
-      width: 24px;
-      height: 24px;
-      background: url('https://ddg.titlecan.cn/assets/loupe_gray.png') no-repeat center center;
-      background-size: contain;
-      transition: all 0.2s ease;
-    }
-    
-    .search-btn:hover .search-icon {
+    .search-button:hover {
       background-image: url('https://ddg.titlecan.cn/assets/loupe_white.png');
-      transform: scale(1.1);
+      background-color: #4d90fe;
+      border-radius: 50%;
     }
     
-    /* 底部区域 */
     .footer {
-      max-width: 1200px;
-      width: 100%;
-      margin: 40px auto 20px;
-      text-align: center;
-    }
-    
-    .footer-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-    
-    .add-btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 14px 30px;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 30px;
-      text-decoration: none;
-      color: #444;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      cursor: pointer;
-    }
-    
-    .add-btn:hover {
-      background: #f0f0f0;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-    }
-    
-    .add-btn i {
-      font-style: normal;
-      font-weight: bold;
-      margin-right: 8px;
-      font-size: 18px;
-      color: #4a86e8;
-    }
-    
-    /* 模态框样式 */
-    .modal {
-      display: none;
       position: fixed;
-      top: 0;
-      left: 0;
+      bottom: 0;
       width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .modal-content {
-      background: white;
-      border-radius: 16px;
-      padding: 30px;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-      position: relative;
-    }
-    
-    .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 24px;
-      cursor: pointer;
-      color: #666;
-      background: none;
-      border: none;
-    }
-    
-    .modal-title {
-      font-size: 22px;
-      margin-bottom: 20px;
-      color: #222;
-    }
-    
-    .modal-text {
-      margin-bottom: 20px;
-      color: #555;
-      line-height: 1.7;
-    }
-    
-    .url-box {
-      background: #f7f7f7;
-      border-radius: 8px;
-      padding: 12px 15px;
-      margin: 15px 0;
+      text-align: center;
+      padding: 20px;
+      color: #999;
       font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: #f8f9fa;
     }
     
-    .url-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 80%;
-    }
-    
-    .copy-btn {
-      background: #4a86e8;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 6px 12px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    
-    .copy-btn:hover {
-      background: #3a76d8;
-    }
-    
-    /* 响应式设计 */
     @media (max-width: 768px) {
-      .header {
-        flex-direction: column;
-        gap: 15px;
+      body {
+        padding-top: 15vh;
       }
       
-      .search-title {
-        font-size: 28px;
+      .logo {
+        width: 160px;
+        height: 68px;
       }
       
       .search-input {
-        padding: 14px 55px 14px 18px;
+        height: 44px;
+        font-size: 15px;
       }
-      
-      .footer-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .add-btn {
-        width: 100%;
-        max-width: 300px;
-        justify-content: center;
-      }
-    }
-    
-    /* 水波纹效果 */
-    .ripple {
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .ripple:after {
-      content: "";
-      display: block;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
-      background-repeat: no-repeat;
-      background-position: 50%;
-      transform: scale(10, 10);
-      opacity: 0;
-      transition: transform .5s, opacity 1s;
-    }
-    
-    .ripple:active:after {
-      transform: scale(0, 0);
-      opacity: .3;
-      transition: 0s;
     }
   </style>
 </head>
 <body>
-  <!-- 头部区域 -->
-  <header class="header">
-    <a href="https://ddg.titlecan.cn/about.html" class="logo-link">
-      <img src="https://ddg.titlecan.cn/assets/logo_homepage.normal.v109.svg" alt="DuckDuckGo" class="logo-svg">
-      <div class="logo-text">镜像搜索</div>
-    </a>
-    
-    <button class="duck-ai-btn ripple">
-      <svg t="1753664664576" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1960" width="200" height="200">
-        <path d="M576 85.333333c0 18.944-8.234667 35.968-21.333333 47.701334V213.333333h213.333333a128 128 0 0 1 128 128v426.666667a128 128 0 0 1-128 128H256a128 128 0 0 1-128-128V341.333333a128 128 0 0 1 128-128h213.333333V133.034667A64 64 0 1 1 576 85.333333zM0 426.666667h85.333333v256H0v-256z m1024 0h-85.333333v256h85.333333v-256zM384 618.666667a64 64 0 1 0 0-128 64 64 0 0 0 0 128z m320-64a64 64 0 1 0-128 0 64 64 0 0 0 128 0z" fill="#ffffff" p-id="1961"></path>
+  <div class="header-wrap">
+    <a href="#" class="duck-ai-btn">
+      <svg t="1753664664576" class="icon-ai" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+        <path d="M576 85.333333c0 18.944-8.234667 35.968-21.333333 47.701334V213.333333h213.333333a128 128 0 0 1 128 128v426.666667a128 128 0 0 1-128 128H256a128 128 0 0 1-128-128V341.333333a128 128 0 0 1 128-128h213.333333V133.034667A64 64 0 1 1 576 85.333333zM0 426.666667h85.333333v256H0v-256z m1024 0h-85.333333v256h85.333333v-256zM384 618.666667a64 64 0 1 0 0-128 64 64 0 0 0 0 128z m320-64a64 64 0 1 0-128 0 64 64 0 0 0 128 0z" fill="#222"></path>
       </svg>
-      Duck.ai
-    </button>
-  </header>
-
-  <!-- 主内容区 -->
-  <main class="main-container">
-    <div class="search-container">
-      <h1 class="search-title">安全、私密的搜索引擎</h1>
-      
-      <form class="search-form" action="https://ddg.titlecan.cn/" method="get">
-        <input 
-          type="text" 
-          name="q" 
-          class="search-input" 
-          placeholder="搜索互联网而不被追踪..."
-          autocomplete="off"
-          autofocus
-        >
-        <button type="submit" class="search-btn ripple">
-          <span class="search-icon"></span>
-        </button>
-      </form>
-      
-      <p>DuckDuckGo镜像站 · 无追踪 · 无个性化广告</p>
-    </div>
-  </main>
-
-  <!-- 底部区域 -->
-  <footer class="footer">
-    <div class="footer-buttons">
-      <button class="add-btn ripple" id="addSearchBtn">
-        <i>+</i> 添加搜索到桌面
-      </button>
-      <button class="add-btn ripple" id="addDuckAiBtn">
-        <i>+</i> 添加Duck.ai到桌面
-      </button>
-    </div>
-  </footer>
-
-  <!-- 添加桌面模态框 -->
-  <div class="modal" id="addModal">
-    <div class="modal-content">
-      <button class="close-btn" id="closeModal">&times;</button>
-      <h2 class="modal-title" id="modalTitle">添加搜索到桌面</h2>
-      <div class="modal-text">
-        <p>要添加此应用到您的设备主屏幕：</p>
-        <ol>
-          <li>点击浏览器菜单（通常是右上角的 <strong>•••</strong> 图标）</li>
-          <li>选择 <strong>"添加到主屏幕"</strong> 或 <strong>"安装应用"</strong></li>
-          <li>按照屏幕提示完成添加</li>
-        </ol>
-        <p>如果上述方法不可用，您可以复制以下链接手动创建快捷方式：</p>
-      </div>
-      <div class="url-box">
-        <div class="url-text" id="urlText">https://s.ddg.titlecan.cn/</div>
-        <button class="copy-btn" id="copyUrlBtn">复制</button>
-      </div>
-    </div>
+      <span>Duck.ai</span>
+    </a>
   </div>
 
-  <!-- 统计代码 -->
-  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-  <script>
-    LA.init({id:"3MqqSVJqXXmWm6E0",ck:"3MqqSVJqXXmWm6E0"})
+  <div class="content-wrap">
+    <div class="logo-wrap">
+      <a title="About DuckDuckGo" class="about-link" href="https://ddg.titlecan.cn/about.html">About DuckDuckGo</a>
+      <div class="logo"></div>
+    </div>
     
-    // 添加桌面功能
-    document.addEventListener('DOMContentLoaded', function() {
-      const addSearchBtn = document.getElementById('addSearchBtn');
-      const addDuckAiBtn = document.getElementById('addDuckAiBtn');
-      const modal = document.getElementById('addModal');
-      const modalTitle = document.getElementById('modalTitle');
-      const urlText = document.getElementById('urlText');
-      const copyUrlBtn = document.getElementById('copyUrlBtn');
-      const closeModal = document.getElementById('closeModal');
-      
-      // 添加搜索到桌面
-      addSearchBtn.addEventListener('click', function() {
-        modalTitle.textContent = '添加搜索到桌面';
-        urlText.textContent = 'https://s.ddg.titlecan.cn/';
-        modal.style.display = 'flex';
-      });
-      
-      // 添加Duck.ai到桌面
-      addDuckAiBtn.addEventListener('click', function() {
-        modalTitle.textContent = '添加Duck.ai到桌面';
-        urlText.textContent = 'https://ddg.titlecan.cn/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1';
-        modal.style.display = 'flex';
-      });
-      
-      // 复制URL
-      copyUrlBtn.addEventListener('click', function() {
-        const textarea = document.createElement('textarea');
-        textarea.value = urlText.textContent;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        
-        const originalText = copyUrlBtn.textContent;
-        copyUrlBtn.textContent = '已复制!';
-        setTimeout(() => {
-          copyUrlBtn.textContent = originalText;
-        }, 2000);
-      });
-      
-      // 关闭模态框
-      closeModal.addEventListener('click', function() {
-        modal.style.display = 'none';
-      });
-      
-      // 点击模态框外部关闭
-      modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-          modal.style.display = 'none';
-        }
-      });
-      
-      // 尝试PWA安装（简化版）
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // 阻止默认安装提示
+    <div class="search-wrap">
+      <form class="search-form" action="https://ddg.titlecan.cn/" method="get">
+        <input name="q" autocomplete="off" class="search-input" type="text" placeholder="Search the web without being tracked" autofocus>
+        <input class="search-button" value="" title="Search" alt="Search" type="submit">
+      </form>
+    </div>
+  </div>
+  
+  <div class="footer">
+    The search engine that doesn't track you.
+  </div>
+
+  <!-- 51.La统计代码 -->
+  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+  <script>LA.init({id:"3MqqSVJqXXmWm6E0",ck:"3MqqSVJqXXmWm6E0"})</script>
+  
+  <script>
+    // 确保搜索框始终聚焦
+    document.querySelector('.search-input').focus();
+    
+    // 防止表单提交到原始地址
+    document.querySelector('.search-form').addEventListener('submit', function(e) {
+      const searchTerm = document.querySelector('.search-input').value.trim();
+      if(searchTerm) {
+        this.action = `https://ddg.titlecan.cn/?q=${encodeURIComponent(searchTerm)}`;
+      }
+    });
+    
+    // 添加键盘快捷键
+    document.addEventListener('keydown', function(e) {
+      if(e.key === '/' && document.activeElement !== document.querySelector('.search-input')) {
         e.preventDefault();
-        
-        // 存储事件以便后续使用
-        let deferredPrompt = e;
-        
-        // 添加自定义安装提示
-        addSearchBtn.addEventListener('click', async () => {
-          // 显示安装提示
-          deferredPrompt.prompt();
-          
-          // 等待用户响应
-          const { outcome } = await deferredPrompt.userChoice;
-          
-          if (outcome === 'accepted') {
-            console.log('用户接受了PWA安装');
-          } else {
-            console.log('用户拒绝了PWA安装');
-          }
-          
-          // 清除保存的事件
-          deferredPrompt = null;
-        });
-      });
+        document.querySelector('.search-input').focus();
+      }
     });
   </script>
 </body>
