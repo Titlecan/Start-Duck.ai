@@ -10,67 +10,70 @@
   <link rel="icon" href="https://ddg.titlecan.cn/favicon.ico" type="image/x-icon">
   <link rel="manifest" href="https://ddg.titlecan.cn/manifest.json">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Microsoft YaHei';
-      background-color: #f8f9fa;
-      color: #222;
-      line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 20vh;
-    }
-    #pwa-install-container {
-      position: fixed;
-      bottom: 70px;
-      width: 100%;
-      text-align: center;
-      display: none;
-      z-index: 1000;
-      animation: fadeIn 0.5s;
-    }
-    #installBtn {
-      padding: 10px 20px;
-      background: #4d90fe;
-      color: white;
-      border: none;
-      border-radius: 24px;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      transition: all 0.3s;
-    }
-    #installBtn:hover {
-      background: #3a7de0;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px) }
-      to { opacity: 1; transform: translateY(0) }
-    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Microsoft YaHei';background-color:#f8f9fa;color:#222;line-height:1.5;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-top:20vh}
+    .header-wrap{position:fixed;top:0;width:100%;display:flex;justify-content:flex-end;padding:15px;z-index:100}
+    .duck-ai-btn{display:flex;align-items:center;gap:8px;padding:8px 15px;background:#fff;border-radius:24px;box-shadow:0 1px 3px rgba(0,0,0,0.1);text-decoration:none;color:#222;font-weight:500;font-size:14px;border:1px solid #e0e0e0;transition:all 0.2s}
+    .duck-ai-btn:hover{background:#f8f9fa;box-shadow:0 1px 5px rgba(0,0,0,0.15)}
+    .icon-ai{width:20px;height:20px;fill:#222}
+    .content-wrap{display:flex;flex-direction:column;align-items:center;width:100%;max-width:700px;padding:0 20px}
+    .logo-wrap{margin-bottom:30px}
+    .logo{width:200px;height:85px;background-image:url('https://ddg.titlecan.cn/assets/logo_homepage.normal.v109.svg');background-repeat:no-repeat;background-size:contain;background-position:center}
+    .search-wrap{width:100%;position:relative}
+    .search-form{display:flex;width:100%;max-width:584px;margin:0 auto;position:relative}
+    .search-input{width:100%;height:48px;padding:0 55px 0 20px;border:2px solid #e0e0e0;border-radius:24px;font-size:16px;outline:none;transition:all 0.2s}
+    .search-input:focus{border-color:#4d90fe;box-shadow:0 1px 6px rgba(32,33,36,0.28)}
+    .search-button{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:none;background:url('https://ddg.titlecan.cn/assets/loupe_gray.png') center center no-repeat;background-size:24px;cursor:pointer;background-color:transparent;outline:none}
+    .search-button:hover{background-image:url('https://ddg.titlecan.cn/assets/loupe_white.png');background-color:#4d90fe;border-radius:50%}
+    .footer{position:fixed;bottom:0;width:100%;text-align:center;padding:20px;color:#999;font-size:14px;background:#f8f9fa}
+    .search-message{position:absolute;top:55px;left:50%;transform:translateX(-50%);background-color:#ff4444;color:white;padding:5px 10px;border-radius:4px;font-size:14px;opacity:0;transition:opacity 0.3s}
+    .search-message.show{opacity:1}
+    #pwa-install-container{position:fixed;bottom:70px;width:100%;text-align:center;display:none;z-index:1000;animation:fadeIn 0.5s}
+    #installBtn{padding:10px 20px;background:#4d90fe;color:white;border:none;border-radius:24px;font-size:14px;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);transition:all 0.3s}
+    #installBtn:hover{background:#3a7de0;transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.2)}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @media (max-width:768px){body{padding-top:15vh}.logo{width:160px;height:68px}.search-input{height:44px;font-size:15px}#pwa-install-container{bottom:60px}}
   </style>
 </head>
 <body>
+  <div class="header-wrap">
+    <a href="https://ddg.titlecan.cn/ai/" class="duck-ai-btn" id="aiLink">
+      <svg class="icon-ai" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+        <path d="M576 85.333333c0 18.944-8.234667 35.968-21.333333 47.701334V213.333333h213.333333a128 128 0 0 1 128 128v426.666667a128 128 0 0 1-128 128H256a128 128 0 0 1-128-128V341.333333a128 128 0 0 1 128-128h213.333333V133.034667A64 64 0 1 1 576 85.333333zM0 426.666667h85.333333v256H0v-256z m1024 0h-85.333333v256h85.333333v-256zM384 618.666667a64 64 0 1 0 0-128 64 64 0 0 0 0 128z m320-64a64 64 0 1 0-128 0 64 64 0 0 0 128 0z" fill="#222"></path>
+      </svg>
+      <span>Duck.ai</span>
+    </a>
+  </div>
 
+  <div class="content-wrap">
+    <div class="logo-wrap">
+      <div class="logo"></div>
+    </div>
+    
+    <div class="search-wrap">
+      <form class="search-form" action="https://ddg.titlecan.cn/" method="get">
+        <input name="q" autocomplete="off" class="search-input" type="text" placeholder="高效搜索体验" autofocus>
+        <input class="search-button" value="" title="搜索" alt="搜索" type="submit">
+        <div class="search-message">请输入搜索内容</div>
+      </form>
+    </div>
+  </div>
+  
   <div id="pwa-install-container">
     <button id="installBtn">📌 安装Duck.ai应用</button>
   </div>
+  
+  <div class="footer">
+    a@titlecan.cn
+  </div>
 
   <script>
-    document.querySelector('.search-form')?.addEventListener('submit', function(e) {
-      const query = document.querySelector('.search-input')?.value.trim();
+    document.querySelector('.search-form').addEventListener('submit', function(e) {
+      const query = document.querySelector('.search-input').value.trim();
       if (!query) {
         e.preventDefault();
-        const message = document.querySelector('.search-message');
-        message?.classList.add('show');
-        setTimeout(() => message?.classList.remove('show'), 2000);
+        document.querySelector('.search-message').classList.add('show');
+        setTimeout(() => document.querySelector('.search-message').classList.remove('show'), 2000);
       }
     });
 
