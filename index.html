@@ -147,6 +147,24 @@
       background: #f8f9fa;
     }
     
+    .search-message {
+      position: absolute;
+      top: 55px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ff4444;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .search-message.show {
+      opacity: 1;
+    }
+    
     @media (max-width: 768px) {
       body {
         padding-top: 15vh;
@@ -166,7 +184,7 @@
 </head>
 <body>
   <div class="header-wrap">
-    <a href="#" class="duck-ai-btn">
+    <a href="https://ddg.titlecan.cn/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1" class="duck-ai-btn">
       <svg class="icon-ai" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
         <path d="M576 85.333333c0 18.944-8.234667 35.968-21.333333 47.701334V213.333333h213.333333a128 128 0 0 1 128 128v426.666667a128 128 0 0 1-128 128H256a128 128 0 0 1-128-128V341.333333a128 128 0 0 1 128-128h213.333333V133.034667A64 64 0 1 1 576 85.333333zM0 426.666667h85.333333v256H0v-256z m1024 0h-85.333333v256h85.333333v-256zM384 618.666667a64 64 0 1 0 0-128 64 64 0 0 0 0 128z m320-64a64 64 0 1 0-128 0 64 64 0 0 0 128 0z" fill="#222"></path>
       </svg>
@@ -183,6 +201,7 @@
       <form class="search-form" action="https://ddg.titlecan.cn/" method="get">
         <input name="q" autocomplete="off" class="search-input" type="text" placeholder="搜索网页而不被跟踪" autofocus>
         <input class="search-button" value="" title="搜索" alt="搜索" type="submit">
+        <div class="search-message">请输入搜索内容</div>
       </form>
     </div>
   </div>
@@ -199,9 +218,18 @@
     
     document.querySelector('.search-form').addEventListener('submit', function(e) {
       const searchTerm = document.querySelector('.search-input').value.trim();
-      if(searchTerm) {
-        this.action = `https://ddg.titlecan.cn/?q=${encodeURIComponent(searchTerm)}`;
+      const message = document.querySelector('.search-message');
+      
+      if(!searchTerm) {
+        e.preventDefault();
+        message.classList.add('show');
+        setTimeout(() => {
+          message.classList.remove('show');
+        }, 2000);
+        return;
       }
+      
+      this.action = `https://ddg.titlecan.cn/?q=${encodeURIComponent(searchTerm)}`;
     });
     
     document.addEventListener('keydown', function(e) {
