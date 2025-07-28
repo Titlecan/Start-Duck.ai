@@ -7,6 +7,7 @@
   <title>DuckDuckGo - 保护隐私的搜索引擎</title>
   <link rel="canonical" href="https://ddg.titlecan.cn/">
   <link rel="icon" href="https://ddg.titlecan.cn/favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="https://s.ddg.titlecan.cn/manifest.json">
   <link rel="stylesheet" href="https://ddg.titlecan.cn/dist/h.0d389dd02de7e1030cde.css" type="text/css">
   <style>
     * {
@@ -164,6 +165,40 @@
     .search-message.show {
       opacity: 1;
     }
+
+    /* PWA安装按钮样式 */
+    #pwa-install-container {
+      position: fixed;
+      bottom: 70px;
+      width: 100%;
+      text-align: center;
+      display: none;
+      z-index: 1000;
+      animation: fadeIn 0.5s;
+    }
+    
+    #installBtn {
+      padding: 10px 20px;
+      background: #4d90fe;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+    }
+    
+    #installBtn:hover {
+      background: #3a7de0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     
     @media (max-width: 768px) {
       body {
@@ -179,12 +214,16 @@
         height: 44px;
         font-size: 15px;
       }
+
+      #pwa-install-container {
+        bottom: 60px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="header-wrap">
-    <a href="https://ddg.titlecan.cn/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1" class="duck-ai-btn">
+    <a href="https://ddg.titlecan.cn/ai/" class="duck-ai-btn" id="aiLink">
       <svg class="icon-ai" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
         <path d="M576 85.333333c0 18.944-8.234667 35.968-21.333333 47.701334V213.333333h213.333333a128 128 0 0 1 128 128v426.666667a128 128 0 0 1-128 128H256a128 128 0 0 1-128-128V341.333333a128 128 0 0 1 128-128h213.333333V133.034667A64 64 0 1 1 576 85.333333zM0 426.666667h85.333333v256H0v-256z m1024 0h-85.333333v256h85.333333v-256zM384 618.666667a64 64 0 1 0 0-128 64 64 0 0 0 0 128z m320-64a64 64 0 1 0-128 0 64 64 0 0 0 128 0z" fill="#222"></path>
       </svg>
@@ -206,14 +245,28 @@
     </div>
   </div>
   
+  <!-- PWA安装按钮 -->
+  <div id="pwa-install-container">
+    <button id="installBtn">📌 安装Duck.ai应用</button>
+  </div>
+  
   <div class="footer">
     不追踪您隐私的搜索引擎
   </div>
 
+  <!-- 统计代码 -->
   <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
   <script>LA.init({id:"3MqqSVJqXXmWm6E0",ck:"3MqqSVJqXXmWm6E0"})</script>
   
+  <!-- AI链接点击统计 -->
   <script>
+    document.getElementById('aiLink').addEventListener('click', function() {
+      LA.track({name: 'AI_link_click'});
+    });
+  </script>
+  
+  <script>
+    // 搜索框功能
     document.querySelector('.search-input').focus();
     
     document.querySelector('.search-form').addEventListener('submit', function(e) {
@@ -238,6 +291,89 @@
         document.querySelector('.search-input').focus();
       }
     });
+
+    // PWA安装功能
+    let deferredPrompt;
+    const installContainer = document.getElementById('pwa-install-container');
+    const installBtn = document.getElementById('installBtn');
+
+    // 检测是否已安装
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('已安装为PWA');
+    } else {
+      // 监听安装事件
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallPromotion();
+      });
+      
+      // 显示安装提示
+      function showInstallPromotion() {
+        // 检查是否最近显示过
+        const lastPromptTime = localStorage.getItem('lastPwaPrompt');
+        const oneWeek = 7 * 24 * 60 * 60 * 1000;
+        
+        if (!lastPromptTime || Date.now() - lastPromptTime > oneWeek) {
+          installContainer.style.display = 'block';
+          localStorage.setItem('lastPwaPrompt', Date.now());
+          
+          // 30秒后自动隐藏
+          setTimeout(() => {
+            installContainer.style.display = 'none';
+          }, 30000);
+        }
+      }
+      
+      // 点击安装按钮
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        
+        installBtn.textContent = '安装中...';
+        installBtn.disabled = true;
+        
+        try {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          
+          LA.track({name: 'PWA_install', data: {result: outcome}});
+          
+          if (outcome === 'accepted') {
+            console.log('用户接受了安装');
+          } else {
+            console.log('用户拒绝了安装');
+            installBtn.textContent = '📌 安装Duck.ai应用';
+            installBtn.disabled = false;
+          }
+        } catch (error) {
+          console.error('安装出错:', error);
+          installBtn.textContent = '📌 安装Duck.ai应用';
+          installBtn.disabled = false;
+        }
+        
+        installContainer.style.display = 'none';
+        deferredPrompt = null;
+      });
+      
+      // 监听安装完成
+      window.addEventListener('appinstalled', () => {
+        console.log('应用已安装');
+        LA.track({name: 'PWA_installed'});
+      });
+      
+      // 针对iOS的特殊处理
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isSafari = navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');
+      
+      if ((isIOS && isSafari) || !('BeforeInstallPromptEvent' in window)) {
+        installBtn.textContent = '添加到主屏幕';
+        installBtn.onclick = () => {
+          LA.track({name: 'iOS_add_to_homescreen_prompt'});
+          alert('要安装Duck.ai应用:\n1. 点击分享按钮\n2. 选择"添加到主屏幕"\n3. 点击"添加"');
+        };
+        showInstallPromotion();
+      }
+    }
   </script>
 </body>
 </html>
