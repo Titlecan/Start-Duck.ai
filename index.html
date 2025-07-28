@@ -28,11 +28,12 @@
     .footer{position:fixed;bottom:0;width:100%;text-align:center;padding:20px;color:#999;font-size:14px;background:#f8f9fa}
     .search-message{position:absolute;top:55px;left:50%;transform:translateX(-50%);background-color:#ff4444;color:white;padding:5px 10px;border-radius:4px;font-size:14px;opacity:0;transition:opacity 0.3s}
     .search-message.show{opacity:1}
-    #pwa-install-container{position:fixed;bottom:70px;width:100%;text-align:center;display:none;z-index:1000;animation:fadeIn 0.5s}
-    #installBtn{padding:10px 20px;background:#4d90fe;color:white;border:none;border-radius:24px;font-size:14px;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);transition:all 0.3s}
+    #pwa-install-container{position:fixed;bottom:80px;width:100%;text-align:center;display:none;z-index:1000;animation:fadeIn 0.5s}
+    #installBtn{padding:12px 24px;background:#4d90fe;color:white;border:none;border-radius:24px;font-size:16px;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);transition:all 0.3s}
     #installBtn:hover{background:#3a7de0;transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.2)}
     @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-    @media (max-width:768px){body{padding-top:15vh}.logo{width:160px;height:68px}.search-input{height:44px;font-size:15px}#pwa-install-container{bottom:60px}}
+    @media (max-width:768px){body{padding-top:15vh}.logo{width:160px;height:68px}.search-input{height:44px;font-size:15px}#pwa-install-container{bottom:90px}}
+    @media (max-width:480px){#pwa-install-container{bottom:100px}}
   </style>
 </head>
 <body>
@@ -77,63 +78,57 @@
       }
     });
 
-    function checkPwaSupport() {
+    function checkBrowser() {
       const ua = navigator.userAgent;
       return {
-        isEdge: ua.includes('Edg/'),
+        isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua),
         isIOS: /iPad|iPhone|iPod/.test(ua),
-        isSafari: ua.includes('Safari') && !ua.includes('Chrome'),
-        hasServiceWorker: 'serviceWorker' in navigator,
-        hasInstallPrompt: 'BeforeInstallPromptEvent' in window
+        isAndroid: /Android/.test(ua),
+        isEdge: /Edg\//i.test(ua),
+        isChrome: /Chrome\//i.test(ua),
+        hasPWA: 'BeforeInstallPromptEvent' in window
       };
     }
 
-    const { isEdge, isIOS, isSafari, hasServiceWorker, hasInstallPrompt } = checkPwaSupport();
+    const { isMobile, isIOS, isAndroid, isEdge, isChrome, hasPWA } = checkBrowser();
     const installContainer = document.getElementById('pwa-install-container');
     const installBtn = document.getElementById('installBtn');
 
     if (!window.matchMedia('(display-mode: standalone)').matches) {
       let deferredPrompt = null;
 
-      if (hasServiceWorker && hasInstallPrompt) {
+      if (hasPWA) {
         window.addEventListener('beforeinstallprompt', (e) => {
           e.preventDefault();
           deferredPrompt = e;
           setTimeout(() => {
             installContainer.style.display = 'block';
-            setTimeout(() => installContainer.style.display = 'none', 8000);
-          }, 7000);
+            setTimeout(() => installContainer.style.display = 'none', 10000);
+          }, isMobile ? 3000 : 7000);
         });
 
         installBtn.onclick = () => {
           if (deferredPrompt) {
             installBtn.textContent = '安装中...';
-            deferredPrompt.prompt().then(choiceResult => {
-              if (choiceResult.outcome === 'accepted') {
-                console.log('安装已接受');
-              }
-              installContainer.style.display = 'none';
-            });
+            deferredPrompt.prompt();
           }
         };
       }
-      else if (isIOS && isSafari) {
+      else if (isIOS) {
         installBtn.textContent = '添加到主屏幕';
-        installBtn.onclick = () => alert('请通过分享菜单添加到主屏幕');
-        setTimeout(() => installContainer.style.display = 'block', 7000);
+        installBtn.onclick = () => alert('点击分享图标 ➤ 选择"添加到主屏幕" ➤ 点击"添加"');
+        setTimeout(() => installContainer.style.display = 'block', 3000);
+      }
+      else if (isAndroid && !isChrome) {
+        installBtn.textContent = '用Edge浏览器安装';
+        installBtn.onclick = () => alert('请使用Microsoft Edge浏览器打开此页面安装应用');
+        setTimeout(() => installContainer.style.display = 'block', 3000);
       }
       else if (isEdge) {
-        installBtn.onclick = () => alert('请点击Edge浏览器菜单中的"安装此站点作为应用"');
-        setTimeout(() => installContainer.style.display = 'block', 7000);
+        installBtn.onclick = () => alert('请点击Edge浏览器菜单 ➤ "应用" ➤ "安装此站点作为应用"');
+        setTimeout(() => installContainer.style.display = 'block', isMobile ? 3000 : 7000);
       }
     }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.altKey && e.shiftKey && e.key === 'P') {
-        installContainer.style.display = 'block';
-        setTimeout(() => installContainer.style.display = 'none', 8000);
-      }
-    });
   </script>
 </body>
 </html>
